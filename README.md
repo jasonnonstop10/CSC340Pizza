@@ -1,2 +1,2 @@
 # CSC340Pizza
-Miniproject pizza not pizza refer
+Miniproject pizza not pizza 
