@@ -12,11 +12,13 @@
 <body>
     <div class="containner">
         <h1 style="text-align: left;">Pizza Not Pizza<h1>
-            <form action="" method="" enctype="">
+            <form action="predictImage" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
                 <h3>Select image to upload:<h3>
-                <input type="file" name="fileToUpload" id="fileToUpload">
+                <input type="file" name="filePath" id="fileToUpload">
                 <input type="submit" value="Upload Image" name="submit">
-              </form>   
+              </form>
+              <img src="{{filePathName}}" alt="imageName">  
     </div>
 </body>
 </html>
