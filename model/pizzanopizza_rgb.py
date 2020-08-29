@@ -13,7 +13,7 @@ from imutils import paths
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/train/'
+train_directory = 'D:/doc/AI/train3/'
 validation_data_dir='D:/doc/AI/validation/test3/'
 
 
@@ -64,30 +64,32 @@ validation_generator = test.flow_from_directory(
 
 model = Sequential()
 
-model.add(Convolution2D(32,3,3, input_shape=(image_width, image_height, 3 )))
+# four convolutional & pooling layers
+model.add(Convolution2D(32, 3, 3, input_shape=(image_width, image_height, 3)))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Convolution2D(32,3,3))
+model.add(Convolution2D(32, 3, 3))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Convolution2D(64,3,3))
+model.add(Convolution2D(64, 3, 3))
 model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-# model.add(Convolution2D(64,3,3))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Convolution2D(64, 3, 3))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-#2 Fully connected layers
+
+# two fully-connected layers
 model.add(Flatten())
 model.add(Dense(64))
 model.add(Activation('relu'))
 
 model.add(Dropout(0.5))
 model.add(Dense(1))
-
+# sigmoid activation - good for a binary classification
 model.add(Activation('sigmoid'))
 
 model.compile(loss='binary_crossentropy',
@@ -106,7 +108,6 @@ pizza_model = model.fit_generator(
        epochs=100,
     
         # nb_epoch=100,
-    
         validation_data=validation_generator,
         # # number of training samples
         # nb_val_samples=800,
@@ -124,24 +125,24 @@ with open("pizza_model.json", "w") as json_file:
 # save weights to HDF5
 model.save_weights("pizza_model.h5")
 
-json_file = open('D:/doc/AI/pizza_model.json', 'r')
+json_file = open('pizza_model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
-loaded_model.load_weights("D:/doc/AI/weights.best.hdf5")
+loaded_model.load_weights("weights.best.hdf5")
 
 
 # compile loaded model on test data
 loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
 # loss and accuracy
-print("loss and accuracy")
-loaded_model.evaluate(validation_generator, steps=800,max_queue_size=10, workers=1)
+
+evaluate=loaded_model.evaluate(validation_generator, steps=800,max_queue_size=10, workers=1)
 
 
 # needs to be reset each time the generator is called
 validation_generator.reset()
-
+print("evaluate = " + evaluate)
 loaded_model.summary()
 
 # evaluate the model
