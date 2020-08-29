@@ -13,8 +13,6 @@ from keras.preprocessing import image as image_utils
 train_directory = 'D:/doc/AI/train/'
 validation_data_dir='D:/doc/AI/validation/test3/'
 
-
-
 #img prepocessing
 image_width = 200
 image_height = 200
@@ -31,11 +29,11 @@ validation_generator = test.flow_from_directory(
         class_mode='binary')
 
 
-json_file = open('pizza_model.json', 'r')
+json_file = open('model/pizza_model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
-loaded_model.load_weights("weights.best.hdf5")
+loaded_model.load_weights("model/weights.best.hdf5")
 
 
 # compile loaded model on test data
@@ -43,7 +41,7 @@ loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['
 
 # loss and accuracy
 print("loss and accuracy")
-loaded_model.evaluate(validation_generator, steps=800,max_queue_size=10, workers=1)
+loaded_model.evaluate_generator(validation_generator, steps=800,max_queue_size=10, workers=1)
 
 
 # needs to be reset each time the generator is called
