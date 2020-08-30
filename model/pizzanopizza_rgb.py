@@ -131,7 +131,7 @@ callbacks_list = [checkpoint]
 # )
 
 pizza_model = model.fit(
-    x=train_image_generator, epochs=1, 
+    x=train_image_generator, epochs=29, 
      validation_data=validation_generator, 
     validation_steps=800, callbacks=callbacks_list,
 )
