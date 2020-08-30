@@ -9,16 +9,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="background-color:#ff9900; padding: 20px; text-align: center">
     <div class="col-md-12 col-sm-4">
-        <h1 style="text-align: left;">Pizza Not Pizza<h1>
+        <h1 style="text-align: center;">Pizza or Not Pizza<h1>
             <form action="predictImage" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h3>Select image to upload:<h3>
                 <input type="file" name="filePath" id="fileToUpload">
                 <input type="submit" value="Upload Image" name="submit">
               </form>
-              <h2>This one is "{{predictedlabel}}", Path: {{filePathName}}, Prediction is {{predi}}<h2>
+              <h4 style="text-align: center;">This one is "{{predictedlabel}}", Path: {{filePathName}}, Prediction is {{predi}}<h4>
               <img src="{{filePathName}}" alt="imageName">  
     </div>
 </body>

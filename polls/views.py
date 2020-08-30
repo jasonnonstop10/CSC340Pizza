@@ -42,8 +42,7 @@ def predictImage(request):
     testimage='.'+filePathName
     
     img = image.load_img(testimage, target_size=(img_height, img_width))
-    x = image.img_to_array(img)
-    x=x/255
+    x = image.img_to_array(img)*(1./255.)
     x=x.reshape(1,img_height, img_width,3)
     with model_graph.as_default():
         with tf_session.as_default():
@@ -51,7 +50,7 @@ def predictImage(request):
 
     
     label = ""
-    if predi >= 0.5:
+    if predi >= 0.05:
         print("pizza")
         label = "Pizza"
     else : 
