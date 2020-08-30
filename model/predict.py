@@ -77,6 +77,10 @@ model.add(Convolution2D(64, 3, 3))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
+# model.add(Convolution2D(64, 3, 3))
+# model.add(Activation('relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+
 
 # two fully-connected layers
 model.add(Flatten())

@@ -8,7 +8,7 @@ import tensorflow as tf
 import json
 from tensorflow import Graph
 
-img_height, img_width=224,224
+img_height, img_width=150,150
 with open('./model/pizza_model.json','r') as f:
     labelInfo=f.read()
 
