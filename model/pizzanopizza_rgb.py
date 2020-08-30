@@ -14,8 +14,8 @@ from imutils import paths
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/train4/'
-validation_data_dir='D:/doc/AI/validation/test4/'
+train_directory = 'D:/doc/AI/train3/'
+validation_data_dir='D:/doc/AI/validation/test3/'
 
 
 # image_paths = list(paths.list_images(validation_data_dir))
@@ -54,7 +54,6 @@ test = ImageDataGenerator(
     rescale=1./255)
 
 
-
 validation_generator = test.flow_from_directory(
         validation_data_dir,
         target_size=(image_width, image_height),
@@ -82,6 +81,10 @@ model.add(Convolution2D(64, 3, 3, padding='same'))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
+model.add(Convolution2D(128, 3, 3, padding='same'))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+
 # two fully-connected layers
 model.add(Flatten())
 model.add(Dense(64))
@@ -105,26 +108,29 @@ loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 loaded_model.load_weights("model/weights.best.hdf5")
-# loaded_model.load_weights("model/weights.best.hdf5")
-
+# loaded_model.load_weights("model/pizza_model.h5")
 # compile loaded model on test data
 loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
-pizza_model = model.fit_generator(
+# pizza_model = model.fit_generator(
+#         train_image_generator,
+#         # number of training samples
+#        epochs=1,
+#         # nb_epoch=100,
+#         validation_data=validation_generator,
+#         # # number of training samples
+#         # nb_val_samples=800,
+#         validation_steps=800,
+#         # lets me save the best models weights
+#         callbacks=callbacks_list
+# )
 
-        train_image_generator,
-        
-        # number of training samples
-       epochs=1,
-    
-        # nb_epoch=100,
-        validation_data=validation_generator,
-        # # number of training samples
-        # nb_val_samples=800,
-        validation_steps=800,
-        # lets me save the best models weights
-        callbacks=callbacks_list
+pizza_model = model.fit(
+    x=train_image_generator, epochs=1, 
+     validation_data=validation_generator, 
+    validation_steps=800, callbacks=callbacks_list,
 )
+
 
 # save model to JSON
 pizza_model_json = model.to_json()
