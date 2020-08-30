@@ -14,8 +14,8 @@ from imutils import paths
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/train3/'
-validation_data_dir='D:/doc/AI/validation/test3/'
+train_directory = 'D:/doc/AI/BigTrain/'
+validation_data_dir='D:/doc/AI/BigTest/'
 
 
 # image_paths = list(paths.list_images(validation_data_dir))
@@ -95,22 +95,27 @@ model.add(Dense(1))
 # sigmoid activation - good for a binary classification
 model.add(Activation('sigmoid'))
 
-model.compile(loss='binary_crossentropy',
-              optimizer='rmsprop',
-              metrics=['accuracy']
-              )
-filepath="model/weights.best.hdf5"
-checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-callbacks_list = [checkpoint]
+
 
 json_file = open('model/pizza_model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 loaded_model.load_weights("model/weights.best.hdf5")
+
+model.compile(loss='binary_crossentropy',
+              optimizer='rmsprop',
+              metrics=['accuracy']
+              )
+
+filepath="model/weights.best.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
+callbacks_list = [checkpoint]
+
+
 # loaded_model.load_weights("model/pizza_model.h5")
 # compile loaded model on test data
-loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+# loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
 # pizza_model = model.fit_generator(
 #         train_image_generator,
@@ -142,7 +147,7 @@ model.save_weights("model/pizza_model.h5")
 
 # loss and accuracy
 
-loaded_model.evaluate(validation_generator, steps=800,max_queue_size=10, workers=1)
+# loaded_model.evaluate(validation_generator, steps=800,max_queue_size=10, workers=1)
 
 
 # needs to be reset each time the generator is called
