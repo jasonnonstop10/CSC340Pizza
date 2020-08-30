@@ -8,12 +8,13 @@ import numpy as np
 from keras.models import model_from_json
 import  glob
 from imutils import paths
+
 # import cv2
 
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/validation/test3/'
+train_directory = 'D:/doc/AI/train4/'
 validation_data_dir='D:/doc/AI/validation/test4/'
 
 
@@ -65,18 +66,21 @@ validation_generator = test.flow_from_directory(
 model = Sequential()
 #can use
 # four convolutional & pooling layers
-model.add(Convolution2D(32, 3, 3, input_shape=(image_width, image_height, 3)))
+model.add(Convolution2D(32, 3, 3, input_shape=(image_width, image_height, 3), padding='same'))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
-model.add(Convolution2D(32, 3, 3))
+model.add(Convolution2D(32, 3, 3, padding='same'))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
-model.add(Convolution2D(64, 3, 3))
+model.add(Convolution2D(64, 3, 3, padding='same'))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
+model.add(Convolution2D(64, 3, 3, padding='same'))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
 # two fully-connected layers
 model.add(Flatten())
@@ -88,26 +92,6 @@ model.add(Dense(1))
 # sigmoid activation - good for a binary classification
 model.add(Activation('sigmoid'))
 
-#try
-# four convolutional & pooling layers
-# model.add(Convolution2D(32, 3, 3, input_shape=(image_width, image_height, 3)))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
-
-# model.add(Convolution2D(64, 3, 3))
-# model.add(Activation('relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
-
-# # two fully-connected layers
-# model.add(Flatten())
-# model.add(Dense(64))
-# model.add(Activation('relu'))
-
-# model.add(Dropout(0.5))
-# model.add(Dense(1))
-# # sigmoid activation - good for a binary classification
-# model.add(Activation('sigmoid'))
-#----------------------------------------------
 model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy']
@@ -116,12 +100,22 @@ filepath="model/weights.best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
+json_file = open('model/pizza_model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+loaded_model.load_weights("model/weights.best.hdf5")
+# loaded_model.load_weights("model/weights.best.hdf5")
+
+# compile loaded model on test data
+loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
+
 pizza_model = model.fit_generator(
 
         train_image_generator,
         
         # number of training samples
-       epochs=100,
+       epochs=1,
     
         # nb_epoch=100,
         validation_data=validation_generator,
@@ -132,7 +126,6 @@ pizza_model = model.fit_generator(
         callbacks=callbacks_list
 )
 
-
 # save model to JSON
 pizza_model_json = model.to_json()
 with open("model/pizza_model.json", "w") as json_file:
@@ -140,17 +133,6 @@ with open("model/pizza_model.json", "w") as json_file:
 
 # save weights to HDF5
 model.save_weights("model/pizza_model.h5")
-
-json_file = open('model/pizza_model.json', 'r')
-loaded_model_json = json_file.read()
-json_file.close()
-loaded_model = model_from_json(loaded_model_json)
-# loaded_model.load_weights("model/weights.best.hdf5")
-loaded_model.load_weights("model/pizza_model.h5")
-
-
-# compile loaded model on test data
-loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
 # loss and accuracy
 
@@ -167,8 +149,8 @@ loaded_model.summary()
 # print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # prediction
-# image = 'D:/doc/AI/validation/test2/pizza/pizza (4517).jpg'
-image = 'D:/doc/AI/validation/test3/nopizza/Chinese_392.jpg'
+image = 'D:/doc/AI/validation/test2/pizza/pizza (4203).jpg'
+# image = 'D:/doc/AI/validation/test2/nopizza/655843.jpg'
 
 image = image_utils.load_img(image, target_size=(150, 150))
 image = image_utils.img_to_array(image)*(1./255.)
