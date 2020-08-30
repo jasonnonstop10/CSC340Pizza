@@ -13,7 +13,7 @@ from imutils import paths
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/validation/test1/'
+train_directory = 'D:/doc/AI/validation/test3/'
 validation_data_dir='D:/doc/AI/validation/test4/'
 
 
@@ -116,21 +116,21 @@ filepath="model/weights.best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
 
-# pizza_model = model.fit_generator(
+pizza_model = model.fit_generator(
 
-#         train_image_generator,
+        train_image_generator,
         
-#         # number of training samples
-#        epochs=100,
+        # number of training samples
+       epochs=100,
     
-#         # nb_epoch=100,
-#         validation_data=validation_generator,
-#         # # number of training samples
-#         # nb_val_samples=800,
-#         validation_steps=800,
-#         # lets me save the best models weights
-#         callbacks=callbacks_list
-# )
+        # nb_epoch=100,
+        validation_data=validation_generator,
+        # # number of training samples
+        # nb_val_samples=800,
+        validation_steps=800,
+        # lets me save the best models weights
+        callbacks=callbacks_list
+)
 
 
 # save model to JSON
@@ -167,7 +167,9 @@ loaded_model.summary()
 # print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # prediction
-image = 'D:/doc/AI/validation/test2/pizza/pizza (4217).jpg'
+# image = 'D:/doc/AI/validation/test2/pizza/pizza (4517).jpg'
+image = 'D:/doc/AI/validation/test3/nopizza/Chinese_392.jpg'
+
 image = image_utils.load_img(image, target_size=(150, 150))
 image = image_utils.img_to_array(image)*(1./255.)
 image = image.reshape((1,) + image.shape)
