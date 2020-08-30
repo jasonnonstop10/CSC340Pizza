@@ -10,6 +10,11 @@ import json
 from tensorflow import Graph
 from tensorflow.python.keras.models import model_from_json
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.compat.v1.Session(config=config)
+sess.as_default()
+
 img_height, img_width=150,150
 with open('./model/pizza_model.json','r') as f:
     labelInfo=f.read()
