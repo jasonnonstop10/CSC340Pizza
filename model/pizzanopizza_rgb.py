@@ -14,8 +14,8 @@ from imutils import paths
 #print("Hello Milk")
 
 #model
-train_directory = 'D:/doc/AI/BigTrain/'
-validation_data_dir='D:/doc/AI/BigTest/'
+train_directory = 'D:/doc/AI/BigTest/'
+validation_data_dir='D:/doc/AI/BigTrain/'
 
 
 # image_paths = list(paths.list_images(validation_data_dir))
@@ -81,9 +81,9 @@ model.add(Convolution2D(64, 3, 3, padding='same'))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
-model.add(Convolution2D(128, 3, 3, padding='same'))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
+# model.add(Convolution2D(128, 3, 3, padding='same'))
+# model.add(Activation('relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))
 
 # two fully-connected layers
 model.add(Flatten())
@@ -131,7 +131,7 @@ callbacks_list = [checkpoint]
 # )
 
 pizza_model = model.fit(
-    x=train_image_generator, epochs=29, 
+    x=train_image_generator, epochs=0, 
      validation_data=validation_generator, 
     validation_steps=800, callbacks=callbacks_list,
 )
@@ -160,8 +160,8 @@ loaded_model.summary()
 # print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 # prediction
-image = 'D:/doc/AI/validation/test2/pizza/pizza (4203).jpg'
-# image = 'D:/doc/AI/validation/test2/nopizza/655843.jpg'
+# image = 'D:/doc/AI/validation/test2/pizza/pizza (4203).jpg'
+image = 'D:/doc/AI/validation/test2/nopizza/655843.jpg'
 
 image = image_utils.load_img(image, target_size=(150, 150))
 image = image_utils.img_to_array(image)*(1./255.)
