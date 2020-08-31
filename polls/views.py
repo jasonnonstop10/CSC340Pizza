@@ -56,7 +56,7 @@ def predictImage(request):
 
     
     label = ""
-    if predi >= 0.5:
+    if predi >= 0.05:
         print("pizza")
         label = "Pizza"
     else : 
