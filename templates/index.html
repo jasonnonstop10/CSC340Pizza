@@ -15,11 +15,11 @@
             <form action="predictImage" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h3>Select image to upload:<h3>
-                <input type="file" name="filePath" id="fileToUpload">
-                <input type="submit" value="Upload Image" name="submit">
+                <input class="btn btn-primary" type="file" name="filePath" id="fileToUpload">
+                <input class="btn btn-success" type="submit" value="Upload Image" name="submit">
               </form>
               <h4 style="text-align: center;">This one is "{{predictedlabel}}", Path: {{filePathName}}, Prediction is {{predi}}<h4>
-              <img src="{{filePathName}}" alt="imageName">  
+              <img src="{{filePathName}}" alt="imageName" class="img-thumbnail img-fluid">  
     </div>
 </body>
 </html>
