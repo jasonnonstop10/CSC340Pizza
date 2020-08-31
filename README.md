@@ -1,10 +1,10 @@
-# CSC340Pizza
+# :pizza:CSC340Pizza:pizza:
 
 ## Miniproject pizza not pizza (image classtify pizza and not pizza)
 
-## Project -> Django + Tensorflow. 
+## Project -> Django:snake: + Tensorflow:sunflower: 
 
-# How to work.
+## How to work.
 
 ### 1.cd in folder CSC340Pizza.
 
@@ -12,4 +12,4 @@
 
 > python manage.py runserver
 
-enjoy!!!!! :smiley: 
+enjoy code!!!!! :smiley: :pizza:
