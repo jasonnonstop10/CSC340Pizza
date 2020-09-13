@@ -26,12 +26,7 @@ with model_graph.as_default():
     tf_session = tf.compat.v1.Session()
     with tf_session.as_default():
         model=load_model('./model/weights.best.hdf5')
-
-# json_file = open('model/pizza_model.json', 'r')
-# loaded_model_json = json_file.read()
-# json_file.close()
-# loaded_model = model_from_json(loaded_model_json)
-# loaded_model.load_weights("model/weights.best.hdf5")
+    
 
 def home(request):
     context={'a':1}
@@ -49,6 +44,7 @@ def predictImage(request):
     img = image.load_img(testimage, target_size=(img_height, img_width))
     x = image.img_to_array(img)*(1./255.)
     x=x.reshape(1,img_height, img_width,3)
+    
 
     with model_graph.as_default():
         with tf_session.as_default():
@@ -56,7 +52,7 @@ def predictImage(request):
 
     
     label = ""
-    if predi >= 0.5:
+    if predi > 0.5:
         print("pizza")
         label = "Pizza"
     else : 
