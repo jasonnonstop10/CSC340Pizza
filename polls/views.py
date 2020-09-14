@@ -59,7 +59,7 @@ def predictImage(request):
         print("not pizza")
         label = "Not pizza"
 
-    context={'predictedlabel': label, 'filePathName':filePathName, 'predi': predi}
+    context={'predictedlabel': label, 'filePathName':filePathName, 'predi': predi[0][0]*100}
     return render(request,'index.html',context)
 
 # def viewDataBase(request):
