@@ -50,7 +50,7 @@ def predictImage(request):
         with tf_session.as_default():
             predi=model.predict(x)
 
-    
+    predi2 = predi[0][0]*100.00   #to make it become a percent value
     label = ""
     if predi > 0.5:
         print("pizza")
@@ -59,7 +59,9 @@ def predictImage(request):
         print("not pizza")
         label = "Not pizza"
 
-    context={'predictedlabel': label, 'filePathName':filePathName, 'predi': predi[0][0]*100}
+    
+
+    context={'predictedlabel': label, 'filePathName':filePathName, 'predi': "{:.2f}".format(predi2)}
     return render(request,'index.html',context)
 
 # def viewDataBase(request):
